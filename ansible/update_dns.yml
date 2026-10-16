@@ -1,0 +1,19 @@
+---
+- name: Add DNS entries to virtual network
+  hosts: localhost
+  connection: local
+  become: true
+  gather_facts: false
+
+  vars_files:
+    - root_password.yml
+
+  tasks:
+    - name: Add all inventory VMs to libvirt network DNS
+      loop: "{{ groups['control_plane'] + groups['workers'] }}"
+      register: net_update
+      failed_when: net_update.rc != 0 and 'exist' not in net_update.stderr
+      ansible.builtin.command: >
+        virsh net-update default add dns-host
+          --xml "<host ip='{{ hostvars[item]['ansible_host'] }}'><hostname>{{ item }}</hostname><hostname>{{ item }}.kcluster.local</hostname></host>"
+          --live --config

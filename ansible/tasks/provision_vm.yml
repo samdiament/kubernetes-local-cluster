@@ -1,0 +1,75 @@
+---
+- name: Ensure cloud-init build directory exists
+  ansible.builtin.file:
+    path: "{{ system_img_dir }}cloudinit/{{ item.name }}"
+    state: directory
+    mode: "0755"
+
+- name: Generate meta-data for VM
+  ansible.builtin.template:
+    src: templates/meta-data.j2
+    dest: "{{ system_img_dir }}cloudinit/{{ item.name }}/meta-data"
+
+- name: Generate user-data for VM
+  ansible.builtin.template:
+    src: templates/user-data.j2
+    dest: "{{ system_img_dir }}cloudinit/{{ item.name }}/user-data"
+
+- name: Generate network-config for VM
+  ansible.builtin.template:
+    src: templates/network-config.j2
+    dest: "{{ system_img_dir }}cloudinit/{{ item.name }}/network-config"
+
+- name: Create cloud-init seed ISO
+  ansible.builtin.command:
+    cmd: genisoimage -output {{ system_img_dir }}{{ item.name }}_seed.iso -volid cidata -joliet -rock {{ system_img_dir }}cloudinit/{{ item.name }}/user-data {{
+      system_img_dir }}cloudinit/{{ item.name }}/meta-data {{ system_img_dir }}cloudinit/{{ item.name }}/network-config
+
+- name: Ensure file permissions for cloud-init seed ISO are set
+  ansible.builtin.file:
+    path: "{{ system_img_dir }}{{ item.name }}_seed.iso"
+    mode: "0644"
+    owner: root
+    group: root
+
+- name: Copy base image for each VM
+  ansible.builtin.copy:
+    src: "{{ system_img_dir }}{{ base_image }}"
+    dest: "{{ system_img_dir }}{{ item.name }}.qcow2"
+    mode: "0644"
+    owner: root
+    group: root
+    remote_src: true
+    force: true
+
+- name: Resize disk for VMs
+  ansible.builtin.command: qemu-img resize {{ system_img_dir }}{{ item.name }}.qcow2 20G
+
+- name: Ensure the qcow2 images are owned by root
+  ansible.builtin.file:
+    path: "{{ system_img_dir }}{{ item.name }}.qcow2"
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Generate libvirt XML configurations from template
+  ansible.builtin.template:
+    src: templates/k8s_vm_template.xml.j2
+    dest: /etc/libvirt/qemu/{{ item.name }}.xml
+    mode: "0644"
+    owner: root
+    group: root
+
+- name: Define VMs
+  ansible.builtin.command:
+    cmd: virsh define /etc/libvirt/qemu/{{ item.name }}.xml
+
+- name: Ensure VMs are running
+  register: vm_status
+  until: vm_status is success
+  retries: 5
+  delay: 10
+  community.libvirt.virt:
+    uri: "{{ libvirt_uri | default('qemu:///system') }}"
+    name: "{{ item.name }}"
+    state: running

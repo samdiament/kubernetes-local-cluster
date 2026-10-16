@@ -1,0 +1,76 @@
+---
+- name: Verify prerequisites for K8s VM deployment
+  hosts: localhost
+  connection: local
+  become: true
+  gather_facts: false
+
+  vars_files:
+    - root_password.yml
+
+  tasks:
+    - name: Ensure packages are present on control system
+      ansible.builtin.dnf:
+        name:
+          - libvirt
+          - qemu-kvm
+          - virt-manager
+          - ansible
+          - genisoimage
+        state: latest
+
+    - name: Ensure libvirtd service is running
+      ansible.builtin.service:
+        name: libvirtd
+        state: started
+        enabled: true
+
+    - name: Check if virt-install is installed
+      ansible.builtin.command: which virt-install
+      register: virt_install_check
+      failed_when: virt_install_check.rc != 0
+      changed_when: false
+
+    - name: Ensure community.libvirt collection is installed
+      community.general.ansible_galaxy_install:
+        type: collection
+        name: community.libvirt
+        state: present
+
+- name: Deploy K8s VMs
+  hosts: localhost
+  connection: local
+  become: true
+  gather_facts: false
+
+  vars_files:
+    - root_password.yml
+
+  vars:
+    vms:
+      - name: kcontrol
+        memory: 2048
+        vcpus: 2
+        ip: 192.168.122.30
+      - name: kworker1
+        memory: 2048
+        vcpus: 2
+        ip: 192.168.122.31
+      - name: kworker2
+        memory: 2048
+        vcpus: 2
+        ip: 192.168.122.32
+    gateway_ip: 192.168.122.1
+    system_img_dir: /var/lib/libvirt/images/
+    ssh_public_key: |
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDC1uLksdIAJPK+g6jlsOjjycPDYrct4MKu0cbmMXcoB89Unpk6onuGTS7iCScSIQe/XCGaCuhL/yXuZhhawE8MJsovSgfoRhcS6k223y6Lq9gbeX/KUqJR7mw2OtH+A0YJyNvHZISAOHzRihO86Kvl8q5mYdl4NhXsHcd8MYKW91mh5nPrt/jIlvD2v2XOK6BCk0x3YNqHJThnjCyQjexWanrWO4YWvNmtf2eDtOhICl+e2R67mOVbmc9097dGYgZ0ecSivh+8MN6gqXzjPVgvcnQG4T/T5s52XNJZuPJpBgh9Kq361uqht5fEemeHW9VvusyVEqEg85QDLgnpaa/T
+      sdiament@samworklaptop2"
+    base_image: ubuntu-noble.qcow2
+    libvirt_uri: qemu:///system
+
+  tasks:
+    - name: Provisions all VMS in the cluster
+      loop: "{{ vms }}"
+      loop_control:
+        loop_var: item
+      ansible.builtin.include_tasks: tasks/provision_vm.yml

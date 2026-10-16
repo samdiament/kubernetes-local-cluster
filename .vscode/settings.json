@@ -1,0 +1,6 @@
+{
+    "yaml.disableSchemaDetection": [],
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/playbook": "file:///home/sdiament/dev/kubernetes-local-cluster/ansible/deploy_k8s_vms.yml"
+    }
+}

@@ -1,0 +1,300 @@
+-no-user-config \
+-nodefaults \
+-chardev socket,id=charmonitor,fd=48,server=on,wait=off \
+-mon chardev=charmonitor,id=monitor,mode=control \
+-rtc base=utc \
+-no-shutdown \
+-boot strict=on \
+-device '{"driver":"pcie-root-port","port":16,"chassis":1,"id":"pci.1","bus":"pcie.0","multifunction":true,"addr":"0x2"}' \
+-device '{"driver":"pcie-root-port","port":17,"chassis":2,"id":"pci.2","bus":"pcie.0","addr":"0x2.0x1"}' \
+-device '{"driver":"pcie-root-port","port":18,"chassis":3,"id":"pci.3","bus":"pcie.0","addr":"0x2.0x2"}' \
+-device '{"driver":"pcie-root-port","port":19,"chassis":4,"id":"pci.4","bus":"pcie.0","addr":"0x2.0x3"}' \
+-device '{"driver":"pcie-root-port","port":20,"chassis":5,"id":"pci.5","bus":"pcie.0","addr":"0x2.0x4"}' \
+-device '{"driver":"qemu-xhci","id":"usb","bus":"pci.2","addr":"0x0"}' \
+-blockdev '{"driver":"file","filename":"/var/lib/libvirt/images/kworker1.qcow2","node-name":"libvirt-1-storage","auto-read-only":true,"discard":"unmap"}' \
+-blockdev '{"node-name":"libvirt-1-format","read-only":false,"driver":"qcow2","file":"libvirt-1-storage","backing":null}' \
+-device '{"driver":"virtio-blk-pci","bus":"pci.3","addr":"0x0","drive":"libvirt-1-format","id":"virtio-disk0","bootindex":1}' \
+-netdev '{"type":"tap","fd":"49","vhost":true,"vhostfd":"53","id":"hostnet0"}' \
+-device '{"driver":"virtio-net-pci","netdev":"hostnet0","id":"net0","mac":"52:54:00:ff:da:ca","bus":"pci.1","addr":"0x0"}' \
+-chardev pty,id=charserial0 \
+-device '{"driver":"isa-serial","chardev":"charserial0","id":"serial0","index":0}' \
+-audiodev '{"id":"audio1","driver":"none"}' \
+-vnc 127.0.0.1:1,audiodev=audio1 \
+-device '{"driver":"cirrus-vga","id":"video0","bus":"pcie.0","addr":"0x1"}' \
+-global ICH9-LPC.noreboot=off \
+-watchdog-action reset \
+-device '{"driver":"virtio-balloon-pci","id":"balloon0","bus":"pci.4","addr":"0x0"}' \
+-sandbox on,obsolete=deny,elevateprivileges=deny,spawn=deny,resourcecontrol=deny \
+-msg timestamp=on
+char device redirected to /dev/pts/5 (label charserial0)
+2026-10-14T19:34:38.863227Z qemu-system-x86_64: terminating on signal 15 from pid 324205 (<unknown process>)
+2026-10-14 19:34:39.064+0000: shutting down, reason=destroyed
+2026-10-14 19:47:49.491+0000: shutting down, reason=failed
+2026-10-14 19:48:00.357+0000: shutting down, reason=failed
+2026-10-14 19:48:10.932+0000: shutting down, reason=failed
+2026-10-14 19:48:22.521+0000: shutting down, reason=failed
+2026-10-14 19:48:33.046+0000: shutting down, reason=failed
+2026-10-14 19:48:43.639+0000: shutting down, reason=failed
+2026-10-14 19:51:37.789+0000: starting up libvirt version: 12.0.0, package: 3.fc44 (Fedora Project, 2026-01-26-10:19:53, ), qemu version: 10.2.2qemu-10.2.2-1.fc44, kernel: 7.2.9-200.fc44.x86_64, hostname: sdiament-thinkpadx1carbongen13.rmtusnj.csb
+LC_ALL=C \
+PATH=/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin \
+USER=root \
+HOME=/var/lib/libvirt/qemu/domain-37-kworker1 \
+XDG_DATA_HOME=/var/lib/libvirt/qemu/domain-37-kworker1/.local/share \
+XDG_CACHE_HOME=/var/lib/libvirt/qemu/domain-37-kworker1/.cache \
+XDG_CONFIG_HOME=/var/lib/libvirt/qemu/domain-37-kworker1/.config \
+/usr/bin/qemu-system-x86_64 \
+-name guest=kworker1,debug-threads=on \
+-S \
+-object '{"qom-type":"secret","id":"masterKey0","format":"raw","file":"/var/lib/libvirt/qemu/domain-37-kworker1/master-key.aes"}' \
+-machine pc-q35-10.2,usb=off,dump-guest-core=off,memory-backend=pc.ram,acpi=off \
+-accel kvm \
+-cpu host,migratable=on \
+-m size=2097152k \
+-object '{"qom-type":"memory-backend-ram","id":"pc.ram","size":2147483648}' \
+-overcommit mem-lock=off \
+-smp 2,sockets=2,cores=1,threads=1 \
+-uuid 59d8d930-d700-4396-9cf1-b2070bf15f88 \
+-no-user-config \
+-nodefaults \
+-chardev socket,id=charmonitor,fd=49,server=on,wait=off \
+-mon chardev=charmonitor,id=monitor,mode=control \
+-rtc base=utc \
+-no-shutdown \
+-boot strict=on \
+-device '{"driver":"pcie-root-port","port":16,"chassis":1,"id":"pci.1","bus":"pcie.0","multifunction":true,"addr":"0x2"}' \
+-device '{"driver":"pcie-root-port","port":17,"chassis":2,"id":"pci.2","bus":"pcie.0","addr":"0x2.0x1"}' \
+-device '{"driver":"pcie-root-port","port":18,"chassis":3,"id":"pci.3","bus":"pcie.0","addr":"0x2.0x2"}' \
+-device '{"driver":"pcie-root-port","port":19,"chassis":4,"id":"pci.4","bus":"pcie.0","addr":"0x2.0x3"}' \
+-device '{"driver":"pcie-root-port","port":20,"chassis":5,"id":"pci.5","bus":"pcie.0","addr":"0x2.0x4"}' \
+-device '{"driver":"qemu-xhci","id":"usb","bus":"pci.2","addr":"0x0"}' \
+-blockdev '{"driver":"file","filename":"/var/lib/libvirt/images/kworker1.qcow2","node-name":"libvirt-2-storage","auto-read-only":true,"discard":"unmap"}' \
+-blockdev '{"node-name":"libvirt-2-format","read-only":false,"driver":"qcow2","file":"libvirt-2-storage","backing":null}' \
+-device '{"driver":"virtio-blk-pci","bus":"pci.3","addr":"0x0","drive":"libvirt-2-format","id":"virtio-disk0","bootindex":1}' \
+-blockdev '{"driver":"file","filename":"/var/lib/libvirt/images/kworker1_seed.iso","node-name":"libvirt-1-storage","read-only":true}' \
+-device '{"driver":"ide-cd","bus":"ide.0","drive":"libvirt-1-storage","id":"sata0-0-0"}' \
+-netdev '{"type":"tap","fd":"52","vhost":true,"vhostfd":"54","id":"hostnet0"}' \
+-device '{"driver":"virtio-net-pci","netdev":"hostnet0","id":"net0","mac":"52:54:00:3e:5a:2a","bus":"pci.1","addr":"0x0"}' \
+-chardev pty,id=charserial0 \
+-device '{"driver":"isa-serial","chardev":"charserial0","id":"serial0","index":0}' \
+-audiodev '{"id":"audio1","driver":"none"}' \
+-vnc 127.0.0.1:1,audiodev=audio1 \
+-device '{"driver":"cirrus-vga","id":"video0","bus":"pcie.0","addr":"0x1"}' \
+-global ICH9-LPC.noreboot=off \
+-watchdog-action reset \
+-device '{"driver":"virtio-balloon-pci","id":"balloon0","bus":"pci.4","addr":"0x0"}' \
+-sandbox on,obsolete=deny,elevateprivileges=deny,spawn=deny,resourcecontrol=deny \
+-msg timestamp=on
+char device redirected to /dev/pts/8 (label charserial0)
+2026-10-14T19:59:30.503941Z qemu-system-x86_64: terminating on signal 15 from pid 324205 (<unknown process>)
+2026-10-14 19:59:30.704+0000: shutting down, reason=destroyed
+2026-10-14 20:00:16.651+0000: starting up libvirt version: 12.0.0, package: 3.fc44 (Fedora Project, 2026-01-26-10:19:53, ), qemu version: 10.2.2qemu-10.2.2-1.fc44, kernel: 7.2.9-200.fc44.x86_64, hostname: sdiament-thinkpadx1carbongen13.rmtusnj.csb
+LC_ALL=C \
+PATH=/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin \
+USER=root \
+HOME=/var/lib/libvirt/qemu/domain-40-kworker1 \
+XDG_DATA_HOME=/var/lib/libvirt/qemu/domain-40-kworker1/.local/share \
+XDG_CACHE_HOME=/var/lib/libvirt/qemu/domain-40-kworker1/.cache \
+XDG_CONFIG_HOME=/var/lib/libvirt/qemu/domain-40-kworker1/.config \
+/usr/bin/qemu-system-x86_64 \
+-name guest=kworker1,debug-threads=on \
+-S \
+-object '{"qom-type":"secret","id":"masterKey0","format":"raw","file":"/var/lib/libvirt/qemu/domain-40-kworker1/master-key.aes"}' \
+-machine pc-q35-10.2,usb=off,dump-guest-core=off,memory-backend=pc.ram,acpi=off \
+-accel kvm \
+-cpu host,migratable=on \
+-m size=2097152k \
+-object '{"qom-type":"memory-backend-ram","id":"pc.ram","size":2147483648}' \
+-overcommit mem-lock=off \
+-smp 2,sockets=2,cores=1,threads=1 \
+-uuid d38aaa01-31fd-48d9-bbf9-cb360345db4c \
+-no-user-config \
+-nodefaults \
+-chardev socket,id=charmonitor,fd=49,server=on,wait=off \
+-mon chardev=charmonitor,id=monitor,mode=control \
+-rtc base=utc \
+-no-shutdown \
+-boot strict=on \
+-device '{"driver":"pcie-root-port","port":16,"chassis":1,"id":"pci.1","bus":"pcie.0","multifunction":true,"addr":"0x2"}' \
+-device '{"driver":"pcie-root-port","port":17,"chassis":2,"id":"pci.2","bus":"pcie.0","addr":"0x2.0x1"}' \
+-device '{"driver":"pcie-root-port","port":18,"chassis":3,"id":"pci.3","bus":"pcie.0","addr":"0x2.0x2"}' \
+-device '{"driver":"pcie-root-port","port":19,"chassis":4,"id":"pci.4","bus":"pcie.0","addr":"0x2.0x3"}' \
+-device '{"driver":"pcie-root-port","port":20,"chassis":5,"id":"pci.5","bus":"pcie.0","addr":"0x2.0x4"}' \
+-device '{"driver":"qemu-xhci","id":"usb","bus":"pci.2","addr":"0x0"}' \
+-blockdev '{"driver":"file","filename":"/var/lib/libvirt/images/kworker1.qcow2","node-name":"libvirt-2-storage","auto-read-only":true,"discard":"unmap"}' \
+-blockdev '{"node-name":"libvirt-2-format","read-only":false,"driver":"qcow2","file":"libvirt-2-storage","backing":null}' \
+-device '{"driver":"virtio-blk-pci","bus":"pci.3","addr":"0x0","drive":"libvirt-2-format","id":"virtio-disk0","bootindex":1}' \
+-blockdev '{"driver":"file","filename":"/var/lib/libvirt/images/kworker1_seed.iso","node-name":"libvirt-1-storage","read-only":true}' \
+-device '{"driver":"ide-cd","bus":"ide.0","drive":"libvirt-1-storage","id":"sata0-0-0"}' \
+-netdev '{"type":"tap","fd":"52","vhost":true,"vhostfd":"54","id":"hostnet0"}' \
+-device '{"driver":"virtio-net-pci","netdev":"hostnet0","id":"net0","mac":"52:54:00:c8:91:66","bus":"pci.1","addr":"0x0"}' \
+-chardev pty,id=charserial0 \
+-device '{"driver":"isa-serial","chardev":"charserial0","id":"serial0","index":0}' \
+-audiodev '{"id":"audio1","driver":"none"}' \
+-vnc 127.0.0.1:1,audiodev=audio1 \
+-device '{"driver":"cirrus-vga","id":"video0","bus":"pcie.0","addr":"0x1"}' \
+-global ICH9-LPC.noreboot=off \
+-watchdog-action reset \
+-device '{"driver":"virtio-balloon-pci","id":"balloon0","bus":"pci.4","addr":"0x0"}' \
+-sandbox on,obsolete=deny,elevateprivileges=deny,spawn=deny,resourcecontrol=deny \
+-msg timestamp=on
+char device redirected to /dev/pts/8 (label charserial0)
+2026-10-14T20:03:51.459083Z qemu-system-x86_64: terminating on signal 15 from pid 324205 (<unknown process>)
+2026-10-14 20:03:51.660+0000: shutting down, reason=destroyed
+2026-10-14 20:09:11.557+0000: starting up libvirt version: 12.0.0, package: 3.fc44 (Fedora Project, 2026-01-26-10:19:53, ), qemu version: 10.2.2qemu-10.2.2-1.fc44, kernel: 7.2.9-200.fc44.x86_64, hostname: sdiament-thinkpadx1carbongen13.rmtusnj.csb
+LC_ALL=C \
+PATH=/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin \
+USER=root \
+HOME=/var/lib/libvirt/qemu/domain-43-kworker1 \
+XDG_DATA_HOME=/var/lib/libvirt/qemu/domain-43-kworker1/.local/share \
+XDG_CACHE_HOME=/var/lib/libvirt/qemu/domain-43-kworker1/.cache \
+XDG_CONFIG_HOME=/var/lib/libvirt/qemu/domain-43-kworker1/.config \
+/usr/bin/qemu-system-x86_64 \
+-name guest=kworker1,debug-threads=on \
+-S \
+-object '{"qom-type":"secret","id":"masterKey0","format":"raw","file":"/var/lib/libvirt/qemu/domain-43-kworker1/master-key.aes"}' \
+-machine pc-q35-10.2,usb=off,dump-guest-core=off,memory-backend=pc.ram,acpi=off \
+-accel kvm \
+-cpu host,migratable=on \
+-m size=2097152k \
+-object '{"qom-type":"memory-backend-ram","id":"pc.ram","size":2147483648}' \
+-overcommit mem-lock=off \
+-smp 2,sockets=2,cores=1,threads=1 \
+-uuid 76e0cc0f-a878-4544-8e52-16b2e95449a9 \
+-no-user-config \
+-nodefaults \
+-chardev socket,id=charmonitor,fd=49,server=on,wait=off \
+-mon chardev=charmonitor,id=monitor,mode=control \
+-rtc base=utc \
+-no-shutdown \
+-boot strict=on \
+-device '{"driver":"pcie-root-port","port":16,"chassis":1,"id":"pci.1","bus":"pcie.0","multifunction":true,"addr":"0x2"}' \
+-device '{"driver":"pcie-root-port","port":17,"chassis":2,"id":"pci.2","bus":"pcie.0","addr":"0x2.0x1"}' \
+-device '{"driver":"pcie-root-port","port":18,"chassis":3,"id":"pci.3","bus":"pcie.0","addr":"0x2.0x2"}' \
+-device '{"driver":"pcie-root-port","port":19,"chassis":4,"id":"pci.4","bus":"pcie.0","addr":"0x2.0x3"}' \
+-device '{"driver":"pcie-root-port","port":20,"chassis":5,"id":"pci.5","bus":"pcie.0","addr":"0x2.0x4"}' \
+-device '{"driver":"qemu-xhci","id":"usb","bus":"pci.2","addr":"0x0"}' \
+-blockdev '{"driver":"file","filename":"/var/lib/libvirt/images/kworker1.qcow2","node-name":"libvirt-2-storage","auto-read-only":true,"discard":"unmap"}' \
+-blockdev '{"node-name":"libvirt-2-format","read-only":false,"driver":"qcow2","file":"libvirt-2-storage","backing":null}' \
+-device '{"driver":"virtio-blk-pci","bus":"pci.3","addr":"0x0","drive":"libvirt-2-format","id":"virtio-disk0","bootindex":1}' \
+-blockdev '{"driver":"file","filename":"/var/lib/libvirt/images/kworker1_seed.iso","node-name":"libvirt-1-storage","read-only":true}' \
+-device '{"driver":"ide-cd","bus":"ide.0","drive":"libvirt-1-storage","id":"sata0-0-0","bootindex":2}' \
+-netdev '{"type":"tap","fd":"52","vhost":true,"vhostfd":"54","id":"hostnet0"}' \
+-device '{"driver":"virtio-net-pci","netdev":"hostnet0","id":"net0","mac":"52:54:00:f7:16:b2","bus":"pci.1","addr":"0x0"}' \
+-chardev pty,id=charserial0 \
+-device '{"driver":"isa-serial","chardev":"charserial0","id":"serial0","index":0}' \
+-audiodev '{"id":"audio1","driver":"none"}' \
+-vnc 127.0.0.1:1,audiodev=audio1 \
+-device '{"driver":"cirrus-vga","id":"video0","bus":"pcie.0","addr":"0x1"}' \
+-global ICH9-LPC.noreboot=off \
+-watchdog-action reset \
+-device '{"driver":"virtio-balloon-pci","id":"balloon0","bus":"pci.4","addr":"0x0"}' \
+-sandbox on,obsolete=deny,elevateprivileges=deny,spawn=deny,resourcecontrol=deny \
+-msg timestamp=on
+char device redirected to /dev/pts/8 (label charserial0)
+2026-10-14T20:16:54.299686Z qemu-system-x86_64: terminating on signal 15 from pid 324205 (<unknown process>)
+2026-10-14 20:16:54.501+0000: shutting down, reason=destroyed
+2026-10-14 20:17:34.501+0000: starting up libvirt version: 12.0.0, package: 3.fc44 (Fedora Project, 2026-01-26-10:19:53, ), qemu version: 10.2.2qemu-10.2.2-1.fc44, kernel: 7.2.9-200.fc44.x86_64, hostname: sdiament-thinkpadx1carbongen13.rmtusnj.csb
+LC_ALL=C \
+PATH=/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin \
+USER=root \
+HOME=/var/lib/libvirt/qemu/domain-46-kworker1 \
+XDG_DATA_HOME=/var/lib/libvirt/qemu/domain-46-kworker1/.local/share \
+XDG_CACHE_HOME=/var/lib/libvirt/qemu/domain-46-kworker1/.cache \
+XDG_CONFIG_HOME=/var/lib/libvirt/qemu/domain-46-kworker1/.config \
+/usr/bin/qemu-system-x86_64 \
+-name guest=kworker1,debug-threads=on \
+-S \
+-object '{"qom-type":"secret","id":"masterKey0","format":"raw","file":"/var/lib/libvirt/qemu/domain-46-kworker1/master-key.aes"}' \
+-machine pc-q35-10.2,usb=off,dump-guest-core=off,memory-backend=pc.ram,acpi=off \
+-accel kvm \
+-cpu host,migratable=on \
+-m size=2097152k \
+-object '{"qom-type":"memory-backend-ram","id":"pc.ram","size":2147483648}' \
+-overcommit mem-lock=off \
+-smp 2,sockets=2,cores=1,threads=1 \
+-uuid 4947ea52-bd38-41ed-b9d7-01d16297da4f \
+-no-user-config \
+-nodefaults \
+-chardev socket,id=charmonitor,fd=49,server=on,wait=off \
+-mon chardev=charmonitor,id=monitor,mode=control \
+-rtc base=utc \
+-no-shutdown \
+-boot strict=on \
+-device '{"driver":"pcie-root-port","port":16,"chassis":1,"id":"pci.1","bus":"pcie.0","multifunction":true,"addr":"0x2"}' \
+-device '{"driver":"pcie-root-port","port":17,"chassis":2,"id":"pci.2","bus":"pcie.0","addr":"0x2.0x1"}' \
+-device '{"driver":"pcie-root-port","port":18,"chassis":3,"id":"pci.3","bus":"pcie.0","addr":"0x2.0x2"}' \
+-device '{"driver":"pcie-root-port","port":19,"chassis":4,"id":"pci.4","bus":"pcie.0","addr":"0x2.0x3"}' \
+-device '{"driver":"pcie-root-port","port":20,"chassis":5,"id":"pci.5","bus":"pcie.0","addr":"0x2.0x4"}' \
+-device '{"driver":"qemu-xhci","id":"usb","bus":"pci.2","addr":"0x0"}' \
+-blockdev '{"driver":"file","filename":"/var/lib/libvirt/images/kworker1.qcow2","node-name":"libvirt-2-storage","auto-read-only":true,"discard":"unmap"}' \
+-blockdev '{"node-name":"libvirt-2-format","read-only":false,"driver":"qcow2","file":"libvirt-2-storage","backing":null}' \
+-device '{"driver":"virtio-blk-pci","bus":"pci.3","addr":"0x0","drive":"libvirt-2-format","id":"virtio-disk0","bootindex":1}' \
+-blockdev '{"driver":"file","filename":"/var/lib/libvirt/images/kworker1_seed.iso","node-name":"libvirt-1-storage","read-only":true}' \
+-device '{"driver":"ide-cd","bus":"ide.0","drive":"libvirt-1-storage","id":"sata0-0-0","bootindex":2}' \
+-netdev '{"type":"tap","fd":"52","vhost":true,"vhostfd":"54","id":"hostnet0"}' \
+-device '{"driver":"virtio-net-pci","netdev":"hostnet0","id":"net0","mac":"52:54:00:fa:bc:09","bus":"pci.1","addr":"0x0"}' \
+-chardev pty,id=charserial0 \
+-device '{"driver":"isa-serial","chardev":"charserial0","id":"serial0","index":0}' \
+-audiodev '{"id":"audio1","driver":"none"}' \
+-vnc 127.0.0.1:1,audiodev=audio1 \
+-device '{"driver":"cirrus-vga","id":"video0","bus":"pcie.0","addr":"0x1"}' \
+-global ICH9-LPC.noreboot=off \
+-watchdog-action reset \
+-device '{"driver":"virtio-balloon-pci","id":"balloon0","bus":"pci.4","addr":"0x0"}' \
+-sandbox on,obsolete=deny,elevateprivileges=deny,spawn=deny,resourcecontrol=deny \
+-msg timestamp=on
+char device redirected to /dev/pts/8 (label charserial0)
+2026-10-14T20:22:15.907807Z qemu-system-x86_64: terminating on signal 15 from pid 324205 (<unknown process>)
+2026-10-14 20:22:16.109+0000: shutting down, reason=destroyed
+2026-10-14 20:24:12.767+0000: starting up libvirt version: 12.0.0, package: 3.fc44 (Fedora Project, 2026-01-26-10:19:53, ), qemu version: 10.2.2qemu-10.2.2-1.fc44, kernel: 7.2.9-200.fc44.x86_64, hostname: sdiament-thinkpadx1carbongen13.rmtusnj.csb
+LC_ALL=C \
+PATH=/usr/local/bin:/usr/bin:/var/lib/snapd/snap/bin \
+USER=root \
+HOME=/var/lib/libvirt/qemu/domain-49-kworker1 \
+XDG_DATA_HOME=/var/lib/libvirt/qemu/domain-49-kworker1/.local/share \
+XDG_CACHE_HOME=/var/lib/libvirt/qemu/domain-49-kworker1/.cache \
+XDG_CONFIG_HOME=/var/lib/libvirt/qemu/domain-49-kworker1/.config \
+/usr/bin/qemu-system-x86_64 \
+-name guest=kworker1,debug-threads=on \
+-S \
+-object '{"qom-type":"secret","id":"masterKey0","format":"raw","file":"/var/lib/libvirt/qemu/domain-49-kworker1/master-key.aes"}' \
+-machine pc-q35-10.2,usb=off,dump-guest-core=off,memory-backend=pc.ram,acpi=off \
+-accel kvm \
+-cpu host,migratable=on \
+-m size=2097152k \
+-object '{"qom-type":"memory-backend-ram","id":"pc.ram","size":2147483648}' \
+-overcommit mem-lock=off \
+-smp 2,sockets=2,cores=1,threads=1 \
+-uuid fdf9a079-1ddf-4365-9005-b1c02b15f2af \
+-no-user-config \
+-nodefaults \
+-chardev socket,id=charmonitor,fd=49,server=on,wait=off \
+-mon chardev=charmonitor,id=monitor,mode=control \
+-rtc base=utc \
+-no-shutdown \
+-boot strict=on \
+-device '{"driver":"pcie-root-port","port":16,"chassis":1,"id":"pci.1","bus":"pcie.0","multifunction":true,"addr":"0x2"}' \
+-device '{"driver":"pcie-root-port","port":17,"chassis":2,"id":"pci.2","bus":"pcie.0","addr":"0x2.0x1"}' \
+-device '{"driver":"pcie-root-port","port":18,"chassis":3,"id":"pci.3","bus":"pcie.0","addr":"0x2.0x2"}' \
+-device '{"driver":"pcie-root-port","port":19,"chassis":4,"id":"pci.4","bus":"pcie.0","addr":"0x2.0x3"}' \
+-device '{"driver":"pcie-root-port","port":20,"chassis":5,"id":"pci.5","bus":"pcie.0","addr":"0x2.0x4"}' \
+-device '{"driver":"qemu-xhci","id":"usb","bus":"pci.2","addr":"0x0"}' \
+-blockdev '{"driver":"file","filename":"/var/lib/libvirt/images/kworker1.qcow2","node-name":"libvirt-2-storage","auto-read-only":true,"discard":"unmap"}' \
+-blockdev '{"node-name":"libvirt-2-format","read-only":false,"driver":"qcow2","file":"libvirt-2-storage","backing":null}' \
+-device '{"driver":"virtio-blk-pci","bus":"pci.3","addr":"0x0","drive":"libvirt-2-format","id":"virtio-disk0","bootindex":1}' \
+-blockdev '{"driver":"file","filename":"/var/lib/libvirt/images/kworker1_seed.iso","node-name":"libvirt-1-storage","read-only":true}' \
+-device '{"driver":"ide-cd","bus":"ide.0","drive":"libvirt-1-storage","id":"sata0-0-0","bootindex":2}' \
+-netdev '{"type":"tap","fd":"52","vhost":true,"vhostfd":"54","id":"hostnet0"}' \
+-device '{"driver":"virtio-net-pci","netdev":"hostnet0","id":"net0","mac":"52:54:00:cb:98:07","bus":"pci.1","addr":"0x0"}' \
+-chardev pty,id=charserial0 \
+-device '{"driver":"isa-serial","chardev":"charserial0","id":"serial0","index":0}' \
+-audiodev '{"id":"audio1","driver":"none"}' \
+-vnc 127.0.0.1:1,audiodev=audio1 \
+-device '{"driver":"cirrus-vga","id":"video0","bus":"pcie.0","addr":"0x1"}' \
+-global ICH9-LPC.noreboot=off \
+-watchdog-action reset \
+-device '{"driver":"virtio-balloon-pci","id":"balloon0","bus":"pci.4","addr":"0x0"}' \
+-sandbox on,obsolete=deny,elevateprivileges=deny,spawn=deny,resourcecontrol=deny \
+-msg timestamp=on
+char device redirected to /dev/pts/8 (label charserial0)
